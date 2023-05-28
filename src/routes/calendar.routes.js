@@ -25,17 +25,16 @@ router.get('/events', async (req, res) => {
 
 router.patch('/inactiveParticipation', async (req, res) => {
   try {
-    let state = null
-
-    const getActive = await conn.execute(`SELECT IDESTADO FROM ESTADO WHERE LOWER(IDESTADO) NOT LIKE 'activo%'`)
-    state = getActive.rows[0][0]
-    
-    const inactiveParticipation = await conn.execute(`UPDATE CALENDARIO SET IDESTADOFK=:state WHERE CONSECALENDARIO=1`,{state},{
+    const {state} = req.body
+    console.log(req.body)
+    await conn.execute(`UPDATE CALENDARIO SET IDESTADOFK=:state WHERE CONSECALENDARIO=1`,{state},{
       autoCommit: true,
       outFormat: conn.OBJECT
     })
-    console.log(inactiveParticipation)
-    res.send(inactiveParticipation)
+    
+    res.send({
+      updated:true
+    })
   }catch(err){
     console.log(err)
   }
