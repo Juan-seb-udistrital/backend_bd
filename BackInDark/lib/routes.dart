@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:js_interop';
 
 import 'package:http/http.dart' as http;
 import 'package:lucifer/lucifer.dart';
@@ -84,12 +83,12 @@ routesSelection() {
       print(e);
     }
   });
-  selection.post('', (Req req, Res res) async {
+  selection.post('/insertParticipant', (Req req, Res res) async {
     try {
       final Map<String, dynamic> requestBody = req.body;
       final id =requestBody['id'];
       var result =  await consult({"query":"insert into ParticipacionEstudiante VALUES (cpartest.nextval,:${id},'Cs','ob1','3')"});
-      if (!result.isNull) {
+      if (result.body!="") {
         res.send({
         "inserted": true
       }); 
