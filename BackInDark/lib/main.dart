@@ -7,6 +7,7 @@ void main() async {
   app.use(logger());
   app.use(json());
   app.use('/calendar',calendar);
+  app.use('/liquidation',liquidation);
   app.use('/navbar',navbar);
   app.use('/selection', selection);
   await app.listen(port,'127.0.0.1');
