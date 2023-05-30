@@ -48,7 +48,7 @@ routesNavBar() {
     }
   });
 
-  navbar.get('getAttendance', (Req req, Res res) async {
+  navbar.get('/getAttendance', (Req req, Res res) async {
     try {
       final Map<String, dynamic> requestBody = req.body;
       final year = requestBody['year'];
@@ -65,7 +65,7 @@ routesNavBar() {
 
 // rutas para selección
 routesSelection() {
-  selection.post('/participants', (Req req, Res res) async {
+  selection.get('/participants', (Req req, Res res) async {
     try {
       var result = await consult({
         "query":
