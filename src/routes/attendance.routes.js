@@ -5,21 +5,6 @@ const router = Router()
 
 router.get('/todayAttendance', async (req, res) => {
   try {
-
-    const getActivity = await conn.execute(`SELECT * FROM (SELECT C.CONSECALENDARIO, T.DESCTIPOCALENDARIO
-      FROM  PERIODO P ,OBRA  O, CALENDARIO C, TIPOCALENDARIO T
-      WHERE  T.IDTIPOCALEN=C.IDTIPOCALENPKFK AND O.IDOBRA=C.IDOBRAKFK AND P.IDPERIODO=O.IDPERIODO
-      and TO_CHAR(SYSDATE,'YYYY')=substr(p.idperiodo,1,4) and TO_CHAR(SYSDATE,'dd/mm/YYYY hh24:mi') 
-      between TO_CHAR(C.FECHAINICIO,'dd/mm/YYYY hh24:mi') and TO_CHAR(C.FECHAFIN,'dd/mm/YYYY hh24:mi')) T WHERE 
-      LOWER(T.DESCTIPOCALENDARIO) LIKE 'ensayo' OR LOWER(T.DESCTIPOCALENDARIO) LIKE 'funcion'`)
-
-    if(getActivity.rows.length === 0){
-      res.send({
-        activity: false
-      })
-      return
-    }
-
     const request = await conn.execute(`SELECT E.CODESTUDIANTE, E.NOMBREES, E.apellidoes
     FROM  PERIODO P ,OBRA  O, CALENDARIO C, TIPOCALENDARIO T, ESTUDIANTE E, PARTICIPACIONESTUDIANTE R
     WHERE  P.IDPERIODO=O.IDPERIODO   and O.IDOBRA =C.IDOBRAKFK AND T.IDTIPOCALEN=C.IDTIPOCALENPKFK
@@ -32,7 +17,7 @@ router.get('/todayAttendance', async (req, res) => {
         name: `${row[1]} ${row[2]}`,
       }
     })
-    console.log(students, getActivity)
+
     res.send({
       students,
       activity:{
